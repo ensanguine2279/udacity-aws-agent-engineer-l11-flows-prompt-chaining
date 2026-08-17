@@ -16,8 +16,6 @@ The flow trace records the input and output of every node that ran, which is the
 
 [Conditional prompt chaining example](conditional-prompt-chaining.md)
 
----
-
 # Text Helper Flow
 
 A productivity startup at a fictional content-marketing company wants a single text helper that detects what a user wants to do with a chunk of text — summarize it, rewrite it for clarity, or something else — and returns the appropriate response. Every request goes through the same entry point, but the work that follows depends on the user's intent.
