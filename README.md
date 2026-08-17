@@ -15,3 +15,11 @@ Amazon Bedrock Flows is the AWS service for building LLM applications from conne
 The flow trace records the input and output of every node that ran, which is the primary debugging tool when a flow returns an unexpected result.
 
 [Conditional prompt chaining example](conditional-prompt-chaining.md)
+
+---
+
+A productivity startup at a fictional content-marketing company wants a single text helper that detects what a user wants to do with a chunk of text — summarize it, rewrite it for clarity, or something else — and returns the appropriate response. Every request goes through the same entry point, but the work that follows depends on the user's intent.
+
+Build a Bedrock Flow that classifies the intent of an input message and routes it to the appropriate specialist prompt.
+
+[Exercise: Text helper](text-helper.md)

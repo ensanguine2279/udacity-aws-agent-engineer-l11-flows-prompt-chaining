@@ -203,6 +203,8 @@ Remote work has fundamentally changed how companies think about office space, ta
 
 Expected: `DecideOperation` outputs `summarize` → `Summarizer` runs
 
+[Flows Trace](text-helper-trace-test-case-1.json)
+
 ---
 
 ### Test Case 2 – Rewrite request
@@ -215,6 +217,8 @@ The utilization of asynchronous communication methodologies in distributed organ
 
 Expected: `DecideOperation` outputs `rewrite` → `Rewriter` runs
 
+[Flows Trace](text-helper-trace-test-case-2.json)
+
 ---
 
 ### Test Case 3 – Other (no clear operation)
@@ -224,6 +228,8 @@ Hey, can you help me with something?
 ```
 
 Expected: `DecideOperation` outputs `other` → `OtherResponder` runs
+
+[Flows Trace](text-helper-trace-test-case-3.json)
 
 ---
 
