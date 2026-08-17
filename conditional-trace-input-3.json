@@ -1,0 +1,359 @@
+{
+  "ClassifyTicket": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "Hi, I have a question about your product."
+              },
+              "nodeInputName": "ticket",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "FlowInputNode",
+                "outputFieldName": "document"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "ClassifyTicket",
+          "timestamp": "2026-08-17T02:33:39.446Z"
+        }
+      }
+    ],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "other"
+              },
+              "next": [
+                {
+                  "inputFieldName": "category",
+                  "nodeName": "RouteByCategory"
+                }
+              ],
+              "nodeOutputName": "modelCompletion",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "ClassifyTicket",
+          "timestamp": "2026-08-17T02:33:39.798Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": [
+      {
+        "nodeActionTrace": {
+          "nodeName": "ClassifyTicket",
+          "operationName": "Converse",
+          "operationRequest": {
+            "requestMetadata": {},
+            "promptVariables": {},
+            "system": [],
+            "additionalModelRequestFields": null,
+            "modelId": "amazon.nova-pro-v1:0",
+            "inferenceConfig": {
+              "maxTokens": 512,
+              "temperature": 0.699999988079071,
+              "topP": 1,
+              "stopSequences": []
+            },
+            "additionalModelResponseFieldPaths": [],
+            "messages": [
+              {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "You are a support ticket classifier. Your only job is to read a support message and output exactly one word: \"billing\", \"technical\", or \"other\".\n\nRules:\n- Output only the single word. No explanation, no punctuation, no extra text.\n- Use \"billing\" for messages about charges, payments, invoices, subscriptions, or pricing.\n- Use \"technical\" for messages about errors, bugs, API issues, login problems, or product behavior.\n- If the message contains both topics, choose the dominant one.\n- Use \"other\" if the message does not clearly fit either category.\n\nClassify this support ticket:\n\n<ticket>\nHi, I have a question about your product.\n</ticket>"
+                  }
+                ],
+                "role": "user"
+              }
+            ]
+          },
+          "operationResponse": {
+            "output": {
+              "message": {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "other"
+                  }
+                ],
+                "role": "assistant"
+              },
+              "type": "MESSAGE"
+            },
+            "stopReason": "end_turn",
+            "sdkHttpResponse": {
+              "statusText": "OK",
+              "statusCode": 200,
+              "successful": true
+            },
+            "responseMetadata": {
+              "metadata": {
+                "Connection": "keep-alive",
+                "x-amzn-RequestId": "7e039efe-0d59-4eff-b0ab-7c14e5852704",
+                "AWS_REQUEST_ID": "7e039efe-0d59-4eff-b0ab-7c14e5852704",
+                "Content-Length": "208",
+                "Date": "Mon, 17 Aug 2026 02:33:39 GMT",
+                "Content-Type": "application/json"
+              }
+            },
+            "metrics": {
+              "latencyMs": 306
+            },
+            "usage": {
+              "inputTokens": 142,
+              "outputTokens": 2,
+              "totalTokens": 144,
+              "cacheDetails": []
+            }
+          },
+          "requestId": "7e039efe-0d59-4eff-b0ab-7c14e5852704",
+          "serviceName": "bedrock",
+          "timestamp": "2026-08-17T02:33:39.798Z"
+        }
+      }
+    ]
+  },
+  "FlowInputNode": {
+    "inputTraces": [],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "Hi, I have a question about your product."
+              },
+              "next": [
+                {
+                  "inputFieldName": "ticket",
+                  "nodeName": "BillingResponder"
+                },
+                {
+                  "inputFieldName": "ticket",
+                  "nodeName": "TechResponder"
+                },
+                {
+                  "inputFieldName": "ticket",
+                  "nodeName": "OtherResponder"
+                },
+                {
+                  "inputFieldName": "ticket",
+                  "nodeName": "ClassifyTicket"
+                }
+              ],
+              "nodeOutputName": "document",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "FlowInputNode",
+          "timestamp": "2026-08-17T02:33:39.446Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": []
+  },
+  "RouteByCategory": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "other"
+              },
+              "nodeInputName": "category",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "ClassifyTicket",
+                "outputFieldName": "modelCompletion"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "RouteByCategory",
+          "timestamp": "2026-08-17T02:33:39.798Z"
+        }
+      }
+    ],
+    "outputTraces": [],
+    "conditionTraces": [
+      {
+        "conditionNodeResultTrace": {
+          "nodeName": "RouteByCategory",
+          "satisfiedConditions": [
+            {
+              "conditionName": "default"
+            }
+          ],
+          "timestamp": "2026-08-17T02:33:39.799Z"
+        }
+      }
+    ],
+    "dependencyTraces": [],
+    "actionTraces": []
+  },
+  "OtherResponder": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "Hi, I have a question about your product."
+              },
+              "nodeInputName": "ticket",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "FlowInputNode",
+                "outputFieldName": "document"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "OtherResponder",
+          "timestamp": "2026-08-17T02:33:39.799Z"
+        }
+      }
+    ],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "Thank you for reaching out. To assist you better, please clarify if your question is about billing or a technical issue."
+              },
+              "next": [
+                {
+                  "inputFieldName": "document",
+                  "nodeName": "FlowOutputNode_2"
+                }
+              ],
+              "nodeOutputName": "modelCompletion",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "OtherResponder",
+          "timestamp": "2026-08-17T02:33:40.307Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": [
+      {
+        "nodeActionTrace": {
+          "nodeName": "OtherResponder",
+          "operationName": "Converse",
+          "operationRequest": {
+            "requestMetadata": {},
+            "promptVariables": {},
+            "system": [],
+            "additionalModelRequestFields": null,
+            "modelId": "amazon.nova-pro-v1:0",
+            "inferenceConfig": {
+              "maxTokens": 512,
+              "temperature": 0.699999988079071,
+              "topP": 1,
+              "stopSequences": []
+            },
+            "additionalModelResponseFieldPaths": [],
+            "messages": [
+              {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "You are a support assistant. The message you received does not clearly fit a billing or technical support category.\n\nWrite a brief, polite response that:\n- Acknowledges the message\n- Explains that the team will need a bit more context to help\n- Asks the customer to clarify whether their issue is related to billing or a technical problem\n\nKeep the response under 80 words. Do not guess at the nature of the issue.\n\nCustomer message:\n\n<ticket>\nHi, I have a question about your product.\n</ticket>"
+                  }
+                ],
+                "role": "user"
+              }
+            ]
+          },
+          "operationResponse": {
+            "output": {
+              "message": {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "Thank you for reaching out. To assist you better, please clarify if your question is about billing or a technical issue."
+                  }
+                ],
+                "role": "assistant"
+              },
+              "type": "MESSAGE"
+            },
+            "stopReason": "end_turn",
+            "sdkHttpResponse": {
+              "statusText": "OK",
+              "statusCode": 200,
+              "successful": true
+            },
+            "responseMetadata": {
+              "metadata": {
+                "Connection": "keep-alive",
+                "x-amzn-RequestId": "012dcefe-96ad-4fa5-a66f-847765244ccd",
+                "AWS_REQUEST_ID": "012dcefe-96ad-4fa5-a66f-847765244ccd",
+                "Content-Length": "324",
+                "Date": "Mon, 17 Aug 2026 02:33:40 GMT",
+                "Content-Type": "application/json"
+              }
+            },
+            "metrics": {
+              "latencyMs": 483
+            },
+            "usage": {
+              "inputTokens": 106,
+              "outputTokens": 25,
+              "totalTokens": 131,
+              "cacheDetails": []
+            }
+          },
+          "requestId": "012dcefe-96ad-4fa5-a66f-847765244ccd",
+          "serviceName": "bedrock",
+          "timestamp": "2026-08-17T02:33:40.307Z"
+        }
+      }
+    ]
+  },
+  "FlowOutputNode_2": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "Thank you for reaching out. To assist you better, please clarify if your question is about billing or a technical issue."
+              },
+              "nodeInputName": "document",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "OtherResponder",
+                "outputFieldName": "modelCompletion"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "FlowOutputNode_2",
+          "timestamp": "2026-08-17T02:33:40.307Z"
+        }
+      }
+    ],
+    "outputTraces": [],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": []
+  }
+}

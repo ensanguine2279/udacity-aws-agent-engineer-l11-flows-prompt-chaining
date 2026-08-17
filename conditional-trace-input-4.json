@@ -1,0 +1,359 @@
+{
+  "ClassifyTicket": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "I upgraded my plan last week and now I keep getting a 403 Forbidden error when calling the API."
+              },
+              "nodeInputName": "ticket",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "FlowInputNode",
+                "outputFieldName": "document"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "ClassifyTicket",
+          "timestamp": "2026-08-17T02:34:49.763Z"
+        }
+      }
+    ],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "technical"
+              },
+              "next": [
+                {
+                  "inputFieldName": "category",
+                  "nodeName": "RouteByCategory"
+                }
+              ],
+              "nodeOutputName": "modelCompletion",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "ClassifyTicket",
+          "timestamp": "2026-08-17T02:34:50.141Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": [
+      {
+        "nodeActionTrace": {
+          "nodeName": "ClassifyTicket",
+          "operationName": "Converse",
+          "operationRequest": {
+            "requestMetadata": {},
+            "promptVariables": {},
+            "system": [],
+            "additionalModelRequestFields": null,
+            "modelId": "amazon.nova-pro-v1:0",
+            "inferenceConfig": {
+              "maxTokens": 512,
+              "temperature": 0.699999988079071,
+              "topP": 1,
+              "stopSequences": []
+            },
+            "additionalModelResponseFieldPaths": [],
+            "messages": [
+              {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "You are a support ticket classifier. Your only job is to read a support message and output exactly one word: \"billing\", \"technical\", or \"other\".\n\nRules:\n- Output only the single word. No explanation, no punctuation, no extra text.\n- Use \"billing\" for messages about charges, payments, invoices, subscriptions, or pricing.\n- Use \"technical\" for messages about errors, bugs, API issues, login problems, or product behavior.\n- If the message contains both topics, choose the dominant one.\n- Use \"other\" if the message does not clearly fit either category.\n\nClassify this support ticket:\n\n<ticket>\nI upgraded my plan last week and now I keep getting a 403 Forbidden error when calling the API.\n</ticket>"
+                  }
+                ],
+                "role": "user"
+              }
+            ]
+          },
+          "operationResponse": {
+            "output": {
+              "message": {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "technical"
+                  }
+                ],
+                "role": "assistant"
+              },
+              "type": "MESSAGE"
+            },
+            "stopReason": "end_turn",
+            "sdkHttpResponse": {
+              "statusText": "OK",
+              "statusCode": 200,
+              "successful": true
+            },
+            "responseMetadata": {
+              "metadata": {
+                "Connection": "keep-alive",
+                "x-amzn-RequestId": "ca23a0c4-6a0e-4e5a-b5f1-66ecbe37d587",
+                "AWS_REQUEST_ID": "ca23a0c4-6a0e-4e5a-b5f1-66ecbe37d587",
+                "Content-Length": "212",
+                "Date": "Mon, 17 Aug 2026 02:34:50 GMT",
+                "Content-Type": "application/json"
+              }
+            },
+            "metrics": {
+              "latencyMs": 331
+            },
+            "usage": {
+              "inputTokens": 155,
+              "outputTokens": 2,
+              "totalTokens": 157,
+              "cacheDetails": []
+            }
+          },
+          "requestId": "ca23a0c4-6a0e-4e5a-b5f1-66ecbe37d587",
+          "serviceName": "bedrock",
+          "timestamp": "2026-08-17T02:34:50.141Z"
+        }
+      }
+    ]
+  },
+  "FlowInputNode": {
+    "inputTraces": [],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "I upgraded my plan last week and now I keep getting a 403 Forbidden error when calling the API."
+              },
+              "next": [
+                {
+                  "inputFieldName": "ticket",
+                  "nodeName": "BillingResponder"
+                },
+                {
+                  "inputFieldName": "ticket",
+                  "nodeName": "TechResponder"
+                },
+                {
+                  "inputFieldName": "ticket",
+                  "nodeName": "OtherResponder"
+                },
+                {
+                  "inputFieldName": "ticket",
+                  "nodeName": "ClassifyTicket"
+                }
+              ],
+              "nodeOutputName": "document",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "FlowInputNode",
+          "timestamp": "2026-08-17T02:34:49.763Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": []
+  },
+  "RouteByCategory": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "technical"
+              },
+              "nodeInputName": "category",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "ClassifyTicket",
+                "outputFieldName": "modelCompletion"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "RouteByCategory",
+          "timestamp": "2026-08-17T02:34:50.141Z"
+        }
+      }
+    ],
+    "outputTraces": [],
+    "conditionTraces": [
+      {
+        "conditionNodeResultTrace": {
+          "nodeName": "RouteByCategory",
+          "satisfiedConditions": [
+            {
+              "conditionName": "cond_technical"
+            }
+          ],
+          "timestamp": "2026-08-17T02:34:50.142Z"
+        }
+      }
+    ],
+    "dependencyTraces": [],
+    "actionTraces": []
+  },
+  "TechResponder": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "I upgraded my plan last week and now I keep getting a 403 Forbidden error when calling the API."
+              },
+              "nodeInputName": "ticket",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "FlowInputNode",
+                "outputFieldName": "document"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "TechResponder",
+          "timestamp": "2026-08-17T02:34:50.142Z"
+        }
+      }
+    ],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "Possible cause: Your API access permissions may not have updated post-upgrade.\n\n1. Check if your API key needs re-generation after the plan upgrade.\n2. Ensure the new plan includes the required API access level.\n3. Verify API endpoint and method are correct for the new plan.\n4. Contact support if issues persist.\n\nDid you regenerate your API key after the upgrade?"
+              },
+              "next": [
+                {
+                  "inputFieldName": "document",
+                  "nodeName": "FlowOutputNode_1"
+                }
+              ],
+              "nodeOutputName": "modelCompletion",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "TechResponder",
+          "timestamp": "2026-08-17T02:34:51.041Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": [
+      {
+        "nodeActionTrace": {
+          "nodeName": "TechResponder",
+          "operationName": "Converse",
+          "operationRequest": {
+            "requestMetadata": {},
+            "promptVariables": {},
+            "system": [],
+            "additionalModelRequestFields": null,
+            "modelId": "amazon.nova-pro-v1:0",
+            "inferenceConfig": {
+              "maxTokens": 512,
+              "temperature": 0.699999988079071,
+              "topP": 1,
+              "stopSequences": []
+            },
+            "additionalModelResponseFieldPaths": [],
+            "messages": [
+              {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "You are a technical support specialist. Your responses are direct, solution-oriented, and precise. You acknowledge the issue, suggest the most likely cause, and provide actionable troubleshooting steps.\n\nRules:\n- Keep responses under 150 words\n- Use numbered steps when providing instructions\n- If you need more information to diagnose the issue, ask one specific clarifying question at the end\n\nRespond to this technical support request:\n\n<ticket>\nI upgraded my plan last week and now I keep getting a 403 Forbidden error when calling the API.\n</ticket>"
+                  }
+                ],
+                "role": "user"
+              }
+            ]
+          },
+          "operationResponse": {
+            "output": {
+              "message": {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "Possible cause: Your API access permissions may not have updated post-upgrade.\n\n1. Check if your API key needs re-generation after the plan upgrade.\n2. Ensure the new plan includes the required API access level.\n3. Verify API endpoint and method are correct for the new plan.\n4. Contact support if issues persist.\n\nDid you regenerate your API key after the upgrade?"
+                  }
+                ],
+                "role": "assistant"
+              },
+              "type": "MESSAGE"
+            },
+            "stopReason": "end_turn",
+            "sdkHttpResponse": {
+              "statusText": "OK",
+              "statusCode": 200,
+              "successful": true
+            },
+            "responseMetadata": {
+              "metadata": {
+                "Connection": "keep-alive",
+                "x-amzn-RequestId": "b4b8b846-f332-49c5-8f13-1590638f9e78",
+                "AWS_REQUEST_ID": "b4b8b846-f332-49c5-8f13-1590638f9e78",
+                "Content-Length": "576",
+                "Date": "Mon, 17 Aug 2026 02:34:51 GMT",
+                "Content-Type": "application/json"
+              }
+            },
+            "metrics": {
+              "latencyMs": 876
+            },
+            "usage": {
+              "inputTokens": 112,
+              "outputTokens": 77,
+              "totalTokens": 189,
+              "cacheDetails": []
+            }
+          },
+          "requestId": "b4b8b846-f332-49c5-8f13-1590638f9e78",
+          "serviceName": "bedrock",
+          "timestamp": "2026-08-17T02:34:51.041Z"
+        }
+      }
+    ]
+  },
+  "FlowOutputNode_1": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "Possible cause: Your API access permissions may not have updated post-upgrade.\n\n1. Check if your API key needs re-generation after the plan upgrade.\n2. Ensure the new plan includes the required API access level.\n3. Verify API endpoint and method are correct for the new plan.\n4. Contact support if issues persist.\n\nDid you regenerate your API key after the upgrade?"
+              },
+              "nodeInputName": "document",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "TechResponder",
+                "outputFieldName": "modelCompletion"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "FlowOutputNode_1",
+          "timestamp": "2026-08-17T02:34:51.041Z"
+        }
+      }
+    ],
+    "outputTraces": [],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": []
+  }
+}

@@ -1,0 +1,359 @@
+{
+  "ClassifyTicket": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "Your API returns a 500 error when I submit a POST request with more than 50 items in the batch. This is happening in production and blocking our pipeline."
+              },
+              "nodeInputName": "ticket",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "FlowInputNode",
+                "outputFieldName": "document"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "ClassifyTicket",
+          "timestamp": "2026-08-17T02:32:37.871Z"
+        }
+      }
+    ],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "technical"
+              },
+              "next": [
+                {
+                  "inputFieldName": "category",
+                  "nodeName": "RouteByCategory"
+                }
+              ],
+              "nodeOutputName": "modelCompletion",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "ClassifyTicket",
+          "timestamp": "2026-08-17T02:32:38.231Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": [
+      {
+        "nodeActionTrace": {
+          "nodeName": "ClassifyTicket",
+          "operationName": "Converse",
+          "operationRequest": {
+            "requestMetadata": {},
+            "promptVariables": {},
+            "system": [],
+            "additionalModelRequestFields": null,
+            "modelId": "amazon.nova-pro-v1:0",
+            "inferenceConfig": {
+              "maxTokens": 512,
+              "temperature": 0.699999988079071,
+              "topP": 1,
+              "stopSequences": []
+            },
+            "additionalModelResponseFieldPaths": [],
+            "messages": [
+              {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "You are a support ticket classifier. Your only job is to read a support message and output exactly one word: \"billing\", \"technical\", or \"other\".\n\nRules:\n- Output only the single word. No explanation, no punctuation, no extra text.\n- Use \"billing\" for messages about charges, payments, invoices, subscriptions, or pricing.\n- Use \"technical\" for messages about errors, bugs, API issues, login problems, or product behavior.\n- If the message contains both topics, choose the dominant one.\n- Use \"other\" if the message does not clearly fit either category.\n\nClassify this support ticket:\n\n<ticket>\nYour API returns a 500 error when I submit a POST request with more than 50 items in the batch. This is happening in production and blocking our pipeline.\n</ticket>"
+                  }
+                ],
+                "role": "user"
+              }
+            ]
+          },
+          "operationResponse": {
+            "output": {
+              "message": {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "technical"
+                  }
+                ],
+                "role": "assistant"
+              },
+              "type": "MESSAGE"
+            },
+            "stopReason": "end_turn",
+            "sdkHttpResponse": {
+              "statusText": "OK",
+              "statusCode": 200,
+              "successful": true
+            },
+            "responseMetadata": {
+              "metadata": {
+                "Connection": "keep-alive",
+                "x-amzn-RequestId": "3aee4b2f-4b6d-4a49-9d3c-bd00fa30d2c6",
+                "AWS_REQUEST_ID": "3aee4b2f-4b6d-4a49-9d3c-bd00fa30d2c6",
+                "Content-Length": "212",
+                "Date": "Mon, 17 Aug 2026 02:32:38 GMT",
+                "Content-Type": "application/json"
+              }
+            },
+            "metrics": {
+              "latencyMs": 290
+            },
+            "usage": {
+              "inputTokens": 168,
+              "outputTokens": 2,
+              "totalTokens": 170,
+              "cacheDetails": []
+            }
+          },
+          "requestId": "3aee4b2f-4b6d-4a49-9d3c-bd00fa30d2c6",
+          "serviceName": "bedrock",
+          "timestamp": "2026-08-17T02:32:38.231Z"
+        }
+      }
+    ]
+  },
+  "FlowInputNode": {
+    "inputTraces": [],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "Your API returns a 500 error when I submit a POST request with more than 50 items in the batch. This is happening in production and blocking our pipeline."
+              },
+              "next": [
+                {
+                  "inputFieldName": "ticket",
+                  "nodeName": "BillingResponder"
+                },
+                {
+                  "inputFieldName": "ticket",
+                  "nodeName": "TechResponder"
+                },
+                {
+                  "inputFieldName": "ticket",
+                  "nodeName": "OtherResponder"
+                },
+                {
+                  "inputFieldName": "ticket",
+                  "nodeName": "ClassifyTicket"
+                }
+              ],
+              "nodeOutputName": "document",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "FlowInputNode",
+          "timestamp": "2026-08-17T02:32:37.871Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": []
+  },
+  "RouteByCategory": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "technical"
+              },
+              "nodeInputName": "category",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "ClassifyTicket",
+                "outputFieldName": "modelCompletion"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "RouteByCategory",
+          "timestamp": "2026-08-17T02:32:38.231Z"
+        }
+      }
+    ],
+    "outputTraces": [],
+    "conditionTraces": [
+      {
+        "conditionNodeResultTrace": {
+          "nodeName": "RouteByCategory",
+          "satisfiedConditions": [
+            {
+              "conditionName": "cond_technical"
+            }
+          ],
+          "timestamp": "2026-08-17T02:32:38.232Z"
+        }
+      }
+    ],
+    "dependencyTraces": [],
+    "actionTraces": []
+  },
+  "TechResponder": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "Your API returns a 500 error when I submit a POST request with more than 50 items in the batch. This is happening in production and blocking our pipeline."
+              },
+              "nodeInputName": "ticket",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "FlowInputNode",
+                "outputFieldName": "document"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "TechResponder",
+          "timestamp": "2026-08-17T02:32:38.232Z"
+        }
+      }
+    ],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "Acknowledged: API returns a 500 error on POST requests with more than 50 items.\n\n Likely cause: Server-side processing limitation or resource exhaustion.\n\n Steps to resolve:\n1. Check server logs for specific errors when the 500 error occurs.\n2. Increase server resources (memory, CPU) if resource exhaustion is identified.\n3. Optimize the API endpoint to handle larger batches efficiently.\n4. Implement pagination or batching limits within the API logic.\n\n Clarifying question: Are there any recent changes to the API or server configuration?"
+              },
+              "next": [
+                {
+                  "inputFieldName": "document",
+                  "nodeName": "FlowOutputNode_1"
+                }
+              ],
+              "nodeOutputName": "modelCompletion",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "TechResponder",
+          "timestamp": "2026-08-17T02:32:39.888Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": [
+      {
+        "nodeActionTrace": {
+          "nodeName": "TechResponder",
+          "operationName": "Converse",
+          "operationRequest": {
+            "requestMetadata": {},
+            "promptVariables": {},
+            "system": [],
+            "additionalModelRequestFields": null,
+            "modelId": "amazon.nova-pro-v1:0",
+            "inferenceConfig": {
+              "maxTokens": 512,
+              "temperature": 0.699999988079071,
+              "topP": 1,
+              "stopSequences": []
+            },
+            "additionalModelResponseFieldPaths": [],
+            "messages": [
+              {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "You are a technical support specialist. Your responses are direct, solution-oriented, and precise. You acknowledge the issue, suggest the most likely cause, and provide actionable troubleshooting steps.\n\nRules:\n- Keep responses under 150 words\n- Use numbered steps when providing instructions\n- If you need more information to diagnose the issue, ask one specific clarifying question at the end\n\nRespond to this technical support request:\n\n<ticket>\nYour API returns a 500 error when I submit a POST request with more than 50 items in the batch. This is happening in production and blocking our pipeline.\n</ticket>"
+                  }
+                ],
+                "role": "user"
+              }
+            ]
+          },
+          "operationResponse": {
+            "output": {
+              "message": {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "Acknowledged: API returns a 500 error on POST requests with more than 50 items.\n\n Likely cause: Server-side processing limitation or resource exhaustion.\n\n Steps to resolve:\n1. Check server logs for specific errors when the 500 error occurs.\n2. Increase server resources (memory, CPU) if resource exhaustion is identified.\n3. Optimize the API endpoint to handle larger batches efficiently.\n4. Implement pagination or batching limits within the API logic.\n\n Clarifying question: Are there any recent changes to the API or server configuration?"
+                  }
+                ],
+                "role": "assistant"
+              },
+              "type": "MESSAGE"
+            },
+            "stopReason": "end_turn",
+            "sdkHttpResponse": {
+              "statusText": "OK",
+              "statusCode": 200,
+              "successful": true
+            },
+            "responseMetadata": {
+              "metadata": {
+                "Connection": "keep-alive",
+                "x-amzn-RequestId": "db51fe1b-b5fc-4d1b-a3ab-35cf9b2b9c81",
+                "AWS_REQUEST_ID": "db51fe1b-b5fc-4d1b-a3ab-35cf9b2b9c81",
+                "Content-Length": "758",
+                "Date": "Mon, 17 Aug 2026 02:32:39 GMT",
+                "Content-Type": "application/json"
+              }
+            },
+            "metrics": {
+              "latencyMs": 1628
+            },
+            "usage": {
+              "inputTokens": 125,
+              "outputTokens": 113,
+              "totalTokens": 238,
+              "cacheDetails": []
+            }
+          },
+          "requestId": "db51fe1b-b5fc-4d1b-a3ab-35cf9b2b9c81",
+          "serviceName": "bedrock",
+          "timestamp": "2026-08-17T02:32:39.888Z"
+        }
+      }
+    ]
+  },
+  "FlowOutputNode_1": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "Acknowledged: API returns a 500 error on POST requests with more than 50 items.\n\n Likely cause: Server-side processing limitation or resource exhaustion.\n\n Steps to resolve:\n1. Check server logs for specific errors when the 500 error occurs.\n2. Increase server resources (memory, CPU) if resource exhaustion is identified.\n3. Optimize the API endpoint to handle larger batches efficiently.\n4. Implement pagination or batching limits within the API logic.\n\n Clarifying question: Are there any recent changes to the API or server configuration?"
+              },
+              "nodeInputName": "document",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "TechResponder",
+                "outputFieldName": "modelCompletion"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "FlowOutputNode_1",
+          "timestamp": "2026-08-17T02:32:39.888Z"
+        }
+      }
+    ],
+    "outputTraces": [],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": []
+  }
+}

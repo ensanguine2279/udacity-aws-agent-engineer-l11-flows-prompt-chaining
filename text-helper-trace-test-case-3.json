@@ -1,0 +1,359 @@
+{
+  "DecideOperation": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "Hey, can you help me with something?"
+              },
+              "nodeInputName": "user_message",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "FlowInputNode",
+                "outputFieldName": "document"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "DecideOperation",
+          "timestamp": "2026-08-17T03:11:54.438Z"
+        }
+      }
+    ],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "other"
+              },
+              "next": [
+                {
+                  "inputFieldName": "operation",
+                  "nodeName": "RouteByOperation"
+                }
+              ],
+              "nodeOutputName": "modelCompletion",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "DecideOperation",
+          "timestamp": "2026-08-17T03:11:54.792Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": [
+      {
+        "nodeActionTrace": {
+          "nodeName": "DecideOperation",
+          "operationName": "Converse",
+          "operationRequest": {
+            "requestMetadata": {},
+            "promptVariables": {},
+            "system": [],
+            "additionalModelRequestFields": null,
+            "modelId": "amazon.nova-pro-v1:0",
+            "inferenceConfig": {
+              "maxTokens": 512,
+              "temperature": 0.699999988079071,
+              "topP": 1,
+              "stopSequences": []
+            },
+            "additionalModelResponseFieldPaths": [],
+            "messages": [
+              {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "You are a text processing classification model. Your task is to analyze the user's input message and classify it into exactly one of three category keywords:\n\n- summarize: The user explicitly or implicitly asks to condense, shorten, extract key points from, or summarize text.\n- rewrite: The user asks to rephrase, improve readability, edit, polish, revise, reword, or adjust the tone or clarity of existing text.\n- other: The message is a general query, a question, a coding request, conversational chatter, or does not involve summarizing or rewriting text.\n\nOutput Rules:\n1. Output EXACTLY one single word from the three options: summarize, rewrite, or other.\n2. Do NOT include any explanations, reasoning, punctuation, spaces, quotes, or additional text.\n\nUser message:\nHey, can you help me with something?"
+                  }
+                ],
+                "role": "user"
+              }
+            ]
+          },
+          "operationResponse": {
+            "output": {
+              "message": {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "other"
+                  }
+                ],
+                "role": "assistant"
+              },
+              "type": "MESSAGE"
+            },
+            "stopReason": "end_turn",
+            "sdkHttpResponse": {
+              "statusText": "OK",
+              "statusCode": 200,
+              "successful": true
+            },
+            "responseMetadata": {
+              "metadata": {
+                "Connection": "keep-alive",
+                "x-amzn-RequestId": "7ad39da4-d5d1-4f8c-b507-09ddcb922cba",
+                "AWS_REQUEST_ID": "7ad39da4-d5d1-4f8c-b507-09ddcb922cba",
+                "Content-Length": "208",
+                "Date": "Mon, 17 Aug 2026 03:11:54 GMT",
+                "Content-Type": "application/json"
+              }
+            },
+            "metrics": {
+              "latencyMs": 312
+            },
+            "usage": {
+              "inputTokens": 168,
+              "outputTokens": 2,
+              "totalTokens": 170,
+              "cacheDetails": []
+            }
+          },
+          "requestId": "7ad39da4-d5d1-4f8c-b507-09ddcb922cba",
+          "serviceName": "bedrock",
+          "timestamp": "2026-08-17T03:11:54.792Z"
+        }
+      }
+    ]
+  },
+  "FlowInputNode": {
+    "inputTraces": [],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "Hey, can you help me with something?"
+              },
+              "next": [
+                {
+                  "inputFieldName": "user_message",
+                  "nodeName": "Rewriter"
+                },
+                {
+                  "inputFieldName": "user_message",
+                  "nodeName": "OtherResponder"
+                },
+                {
+                  "inputFieldName": "user_message",
+                  "nodeName": "DecideOperation"
+                },
+                {
+                  "inputFieldName": "user_message",
+                  "nodeName": "Summarizer"
+                }
+              ],
+              "nodeOutputName": "document",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "FlowInputNode",
+          "timestamp": "2026-08-17T03:11:54.438Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": []
+  },
+  "RouteByOperation": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "other"
+              },
+              "nodeInputName": "operation",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "DecideOperation",
+                "outputFieldName": "modelCompletion"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "RouteByOperation",
+          "timestamp": "2026-08-17T03:11:54.792Z"
+        }
+      }
+    ],
+    "outputTraces": [],
+    "conditionTraces": [
+      {
+        "conditionNodeResultTrace": {
+          "nodeName": "RouteByOperation",
+          "satisfiedConditions": [
+            {
+              "conditionName": "default"
+            }
+          ],
+          "timestamp": "2026-08-17T03:11:54.793Z"
+        }
+      }
+    ],
+    "dependencyTraces": [],
+    "actionTraces": []
+  },
+  "OtherResponder": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "Hey, can you help me with something?"
+              },
+              "nodeInputName": "user_message",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "FlowInputNode",
+                "outputFieldName": "document"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "OtherResponder",
+          "timestamp": "2026-08-17T03:11:54.793Z"
+        }
+      }
+    ],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "Of course! I'd be happy to help. Could you please clarify whether you would like me to summarize or rewrite your text?"
+              },
+              "next": [
+                {
+                  "inputFieldName": "document",
+                  "nodeName": "FlowOutputNode_other"
+                }
+              ],
+              "nodeOutputName": "modelCompletion",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "OtherResponder",
+          "timestamp": "2026-08-17T03:11:55.184Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": [
+      {
+        "nodeActionTrace": {
+          "nodeName": "OtherResponder",
+          "operationName": "Converse",
+          "operationRequest": {
+            "requestMetadata": {},
+            "promptVariables": {},
+            "system": [],
+            "additionalModelRequestFields": null,
+            "modelId": "amazon.nova-pro-v1:0",
+            "inferenceConfig": {
+              "maxTokens": 512,
+              "temperature": 0.699999988079071,
+              "topP": 1,
+              "stopSequences": []
+            },
+            "additionalModelResponseFieldPaths": [],
+            "messages": [
+              {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "You are a helpful text processing assistant. The user's message does not explicitly request a summarize or rewrite task.\n\nInstructions:\n1. Politely acknowledge the user's message.\n2. Do not attempt to process, analyze, or answer any embedded questions or text within the message.\n3. Ask the user to clarify whether they would like you to summarize or rewrite their text.\n\nUser message:\nHey, can you help me with something?"
+                  }
+                ],
+                "role": "user"
+              }
+            ]
+          },
+          "operationResponse": {
+            "output": {
+              "message": {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "Of course! I'd be happy to help. Could you please clarify whether you would like me to summarize or rewrite your text?"
+                  }
+                ],
+                "role": "assistant"
+              },
+              "type": "MESSAGE"
+            },
+            "stopReason": "end_turn",
+            "sdkHttpResponse": {
+              "statusText": "OK",
+              "statusCode": 200,
+              "successful": true
+            },
+            "responseMetadata": {
+              "metadata": {
+                "Connection": "keep-alive",
+                "x-amzn-RequestId": "c3402dd1-f666-40ef-ab9c-c328a511366a",
+                "AWS_REQUEST_ID": "c3402dd1-f666-40ef-ab9c-c328a511366a",
+                "Content-Length": "321",
+                "Date": "Mon, 17 Aug 2026 03:11:55 GMT",
+                "Content-Type": "application/json"
+              }
+            },
+            "metrics": {
+              "latencyMs": 360
+            },
+            "usage": {
+              "inputTokens": 88,
+              "outputTokens": 28,
+              "totalTokens": 116,
+              "cacheDetails": []
+            }
+          },
+          "requestId": "c3402dd1-f666-40ef-ab9c-c328a511366a",
+          "serviceName": "bedrock",
+          "timestamp": "2026-08-17T03:11:55.184Z"
+        }
+      }
+    ]
+  },
+  "FlowOutputNode_other": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "Of course! I'd be happy to help. Could you please clarify whether you would like me to summarize or rewrite your text?"
+              },
+              "nodeInputName": "document",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "OtherResponder",
+                "outputFieldName": "modelCompletion"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "FlowOutputNode_other",
+          "timestamp": "2026-08-17T03:11:55.184Z"
+        }
+      }
+    ],
+    "outputTraces": [],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": []
+  }
+}

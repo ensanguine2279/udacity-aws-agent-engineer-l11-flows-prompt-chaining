@@ -1,0 +1,359 @@
+{
+  "DecideOperation": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "This is hard to read. Can you make it clearer?\n\nThe utilization of asynchronous communication methodologies in distributed organizational structures has demonstrated significant potential in facilitating improved collaboration outcomes, notwithstanding the inherent challenges associated with temporal displacement among geographically disparate team members who are required to maintain operational coherence in the absence of synchronous interaction opportunities."
+              },
+              "nodeInputName": "user_message",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "FlowInputNode",
+                "outputFieldName": "document"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "DecideOperation",
+          "timestamp": "2026-08-17T03:10:28.353Z"
+        }
+      }
+    ],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "rewrite"
+              },
+              "next": [
+                {
+                  "inputFieldName": "operation",
+                  "nodeName": "RouteByOperation"
+                }
+              ],
+              "nodeOutputName": "modelCompletion",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "DecideOperation",
+          "timestamp": "2026-08-17T03:10:28.739Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": [
+      {
+        "nodeActionTrace": {
+          "nodeName": "DecideOperation",
+          "operationName": "Converse",
+          "operationRequest": {
+            "requestMetadata": {},
+            "promptVariables": {},
+            "system": [],
+            "additionalModelRequestFields": null,
+            "modelId": "amazon.nova-pro-v1:0",
+            "inferenceConfig": {
+              "maxTokens": 512,
+              "temperature": 0.699999988079071,
+              "topP": 1,
+              "stopSequences": []
+            },
+            "additionalModelResponseFieldPaths": [],
+            "messages": [
+              {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "You are a text processing classification model. Your task is to analyze the user's input message and classify it into exactly one of three category keywords:\n\n- summarize: The user explicitly or implicitly asks to condense, shorten, extract key points from, or summarize text.\n- rewrite: The user asks to rephrase, improve readability, edit, polish, revise, reword, or adjust the tone or clarity of existing text.\n- other: The message is a general query, a question, a coding request, conversational chatter, or does not involve summarizing or rewriting text.\n\nOutput Rules:\n1. Output EXACTLY one single word from the three options: summarize, rewrite, or other.\n2. Do NOT include any explanations, reasoning, punctuation, spaces, quotes, or additional text.\n\nUser message:\nThis is hard to read. Can you make it clearer?\n\nThe utilization of asynchronous communication methodologies in distributed organizational structures has demonstrated significant potential in facilitating improved collaboration outcomes, notwithstanding the inherent challenges associated with temporal displacement among geographically disparate team members who are required to maintain operational coherence in the absence of synchronous interaction opportunities."
+                  }
+                ],
+                "role": "user"
+              }
+            ]
+          },
+          "operationResponse": {
+            "output": {
+              "message": {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "rewrite"
+                  }
+                ],
+                "role": "assistant"
+              },
+              "type": "MESSAGE"
+            },
+            "stopReason": "end_turn",
+            "sdkHttpResponse": {
+              "statusText": "OK",
+              "statusCode": 200,
+              "successful": true
+            },
+            "responseMetadata": {
+              "metadata": {
+                "Connection": "keep-alive",
+                "x-amzn-RequestId": "847b1d22-7997-421c-bf91-5d9210450ae7",
+                "AWS_REQUEST_ID": "847b1d22-7997-421c-bf91-5d9210450ae7",
+                "Content-Length": "210",
+                "Date": "Mon, 17 Aug 2026 03:10:28 GMT",
+                "Content-Type": "application/json"
+              }
+            },
+            "metrics": {
+              "latencyMs": 338
+            },
+            "usage": {
+              "inputTokens": 219,
+              "outputTokens": 2,
+              "totalTokens": 221,
+              "cacheDetails": []
+            }
+          },
+          "requestId": "847b1d22-7997-421c-bf91-5d9210450ae7",
+          "serviceName": "bedrock",
+          "timestamp": "2026-08-17T03:10:28.739Z"
+        }
+      }
+    ]
+  },
+  "FlowInputNode": {
+    "inputTraces": [],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "This is hard to read. Can you make it clearer?\n\nThe utilization of asynchronous communication methodologies in distributed organizational structures has demonstrated significant potential in facilitating improved collaboration outcomes, notwithstanding the inherent challenges associated with temporal displacement among geographically disparate team members who are required to maintain operational coherence in the absence of synchronous interaction opportunities."
+              },
+              "next": [
+                {
+                  "inputFieldName": "user_message",
+                  "nodeName": "Rewriter"
+                },
+                {
+                  "inputFieldName": "user_message",
+                  "nodeName": "OtherResponder"
+                },
+                {
+                  "inputFieldName": "user_message",
+                  "nodeName": "DecideOperation"
+                },
+                {
+                  "inputFieldName": "user_message",
+                  "nodeName": "Summarizer"
+                }
+              ],
+              "nodeOutputName": "document",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "FlowInputNode",
+          "timestamp": "2026-08-17T03:10:28.353Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": []
+  },
+  "RouteByOperation": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "rewrite"
+              },
+              "nodeInputName": "operation",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "DecideOperation",
+                "outputFieldName": "modelCompletion"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "RouteByOperation",
+          "timestamp": "2026-08-17T03:10:28.739Z"
+        }
+      }
+    ],
+    "outputTraces": [],
+    "conditionTraces": [
+      {
+        "conditionNodeResultTrace": {
+          "nodeName": "RouteByOperation",
+          "satisfiedConditions": [
+            {
+              "conditionName": "rewrite"
+            }
+          ],
+          "timestamp": "2026-08-17T03:10:28.739Z"
+        }
+      }
+    ],
+    "dependencyTraces": [],
+    "actionTraces": []
+  },
+  "Rewriter": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "This is hard to read. Can you make it clearer?\n\nThe utilization of asynchronous communication methodologies in distributed organizational structures has demonstrated significant potential in facilitating improved collaboration outcomes, notwithstanding the inherent challenges associated with temporal displacement among geographically disparate team members who are required to maintain operational coherence in the absence of synchronous interaction opportunities."
+              },
+              "nodeInputName": "user_message",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "FlowInputNode",
+                "outputFieldName": "document"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "Rewriter",
+          "timestamp": "2026-08-17T03:10:28.740Z"
+        }
+      }
+    ],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "The use of asynchronous communication methods in organizations with distributed structures has shown significant potential for enhancing collaboration outcomes. This is despite the challenges posed by time differences among team members who are spread across different geographical locations and need to maintain operational coherence without the benefit of real-time interaction."
+              },
+              "next": [
+                {
+                  "inputFieldName": "document",
+                  "nodeName": "FlowOutputNode_rewriter"
+                }
+              ],
+              "nodeOutputName": "modelCompletion",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "Rewriter",
+          "timestamp": "2026-08-17T03:10:29.571Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": [
+      {
+        "nodeActionTrace": {
+          "nodeName": "Rewriter",
+          "operationName": "Converse",
+          "operationRequest": {
+            "requestMetadata": {},
+            "promptVariables": {},
+            "system": [],
+            "additionalModelRequestFields": null,
+            "modelId": "amazon.nova-pro-v1:0",
+            "inferenceConfig": {
+              "maxTokens": 512,
+              "temperature": 0.699999988079071,
+              "topP": 1,
+              "stopSequences": []
+            },
+            "additionalModelResponseFieldPaths": [],
+            "messages": [
+              {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "You are an expert editor and text refinement assistant. Your task is to rewrite the provided user message to make it clearer and more readable.\n\nInstructions:\n1. Preserve the original meaning and author's intent precisely.\n2. Improve clarity, flow, and readability.\n3. Do not add any new information, facts, or context that was not present in the original text.\n4. Output only the rewritten text without introductory or concluding remarks.\n\nUser message:\nThis is hard to read. Can you make it clearer?\n\nThe utilization of asynchronous communication methodologies in distributed organizational structures has demonstrated significant potential in facilitating improved collaboration outcomes, notwithstanding the inherent challenges associated with temporal displacement among geographically disparate team members who are required to maintain operational coherence in the absence of synchronous interaction opportunities."
+                  }
+                ],
+                "role": "user"
+              }
+            ]
+          },
+          "operationResponse": {
+            "output": {
+              "message": {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "The use of asynchronous communication methods in organizations with distributed structures has shown significant potential for enhancing collaboration outcomes. This is despite the challenges posed by time differences among team members who are spread across different geographical locations and need to maintain operational coherence without the benefit of real-time interaction."
+                  }
+                ],
+                "role": "assistant"
+              },
+              "type": "MESSAGE"
+            },
+            "stopReason": "end_turn",
+            "sdkHttpResponse": {
+              "statusText": "OK",
+              "statusCode": 200,
+              "successful": true
+            },
+            "responseMetadata": {
+              "metadata": {
+                "Connection": "keep-alive",
+                "x-amzn-RequestId": "609b92be-51e0-4a98-8555-b96877660bd6",
+                "AWS_REQUEST_ID": "609b92be-51e0-4a98-8555-b96877660bd6",
+                "Content-Length": "584",
+                "Date": "Mon, 17 Aug 2026 03:10:29 GMT",
+                "Content-Type": "application/json"
+              }
+            },
+            "metrics": {
+              "latencyMs": 804
+            },
+            "usage": {
+              "inputTokens": 150,
+              "outputTokens": 55,
+              "totalTokens": 205,
+              "cacheDetails": []
+            }
+          },
+          "requestId": "609b92be-51e0-4a98-8555-b96877660bd6",
+          "serviceName": "bedrock",
+          "timestamp": "2026-08-17T03:10:29.571Z"
+        }
+      }
+    ]
+  },
+  "FlowOutputNode_rewriter": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "The use of asynchronous communication methods in organizations with distributed structures has shown significant potential for enhancing collaboration outcomes. This is despite the challenges posed by time differences among team members who are spread across different geographical locations and need to maintain operational coherence without the benefit of real-time interaction."
+              },
+              "nodeInputName": "document",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "Rewriter",
+                "outputFieldName": "modelCompletion"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "FlowOutputNode_rewriter",
+          "timestamp": "2026-08-17T03:10:29.571Z"
+        }
+      }
+    ],
+    "outputTraces": [],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": []
+  }
+}

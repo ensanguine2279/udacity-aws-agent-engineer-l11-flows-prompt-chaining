@@ -1,0 +1,359 @@
+{
+  "ClassifyTicket": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "I was charged twice for my subscription last month. I reached out last week and never heard back. I need this resolved before my next billing cycle."
+              },
+              "nodeInputName": "ticket",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "FlowInputNode",
+                "outputFieldName": "document"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "ClassifyTicket",
+          "timestamp": "2026-08-17T02:30:54.932Z"
+        }
+      }
+    ],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "billing"
+              },
+              "next": [
+                {
+                  "inputFieldName": "category",
+                  "nodeName": "RouteByCategory"
+                }
+              ],
+              "nodeOutputName": "modelCompletion",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "ClassifyTicket",
+          "timestamp": "2026-08-17T02:30:55.423Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": [
+      {
+        "nodeActionTrace": {
+          "nodeName": "ClassifyTicket",
+          "operationName": "Converse",
+          "operationRequest": {
+            "requestMetadata": {},
+            "promptVariables": {},
+            "system": [],
+            "additionalModelRequestFields": null,
+            "modelId": "amazon.nova-pro-v1:0",
+            "inferenceConfig": {
+              "maxTokens": 512,
+              "temperature": 0.699999988079071,
+              "topP": 1,
+              "stopSequences": []
+            },
+            "additionalModelResponseFieldPaths": [],
+            "messages": [
+              {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "You are a support ticket classifier. Your only job is to read a support message and output exactly one word: \"billing\", \"technical\", or \"other\".\n\nRules:\n- Output only the single word. No explanation, no punctuation, no extra text.\n- Use \"billing\" for messages about charges, payments, invoices, subscriptions, or pricing.\n- Use \"technical\" for messages about errors, bugs, API issues, login problems, or product behavior.\n- If the message contains both topics, choose the dominant one.\n- Use \"other\" if the message does not clearly fit either category.\n\nClassify this support ticket:\n\n<ticket>\nI was charged twice for my subscription last month. I reached out last week and never heard back. I need this resolved before my next billing cycle.\n</ticket>"
+                  }
+                ],
+                "role": "user"
+              }
+            ]
+          },
+          "operationResponse": {
+            "output": {
+              "message": {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "billing"
+                  }
+                ],
+                "role": "assistant"
+              },
+              "type": "MESSAGE"
+            },
+            "stopReason": "end_turn",
+            "sdkHttpResponse": {
+              "statusText": "OK",
+              "statusCode": 200,
+              "successful": true
+            },
+            "responseMetadata": {
+              "metadata": {
+                "Connection": "keep-alive",
+                "x-amzn-RequestId": "6ff95bc2-527b-4b35-bca1-ba9062756de5",
+                "AWS_REQUEST_ID": "6ff95bc2-527b-4b35-bca1-ba9062756de5",
+                "Content-Length": "210",
+                "Date": "Mon, 17 Aug 2026 02:30:55 GMT",
+                "Content-Type": "application/json"
+              }
+            },
+            "metrics": {
+              "latencyMs": 437
+            },
+            "usage": {
+              "inputTokens": 162,
+              "outputTokens": 2,
+              "totalTokens": 164,
+              "cacheDetails": []
+            }
+          },
+          "requestId": "6ff95bc2-527b-4b35-bca1-ba9062756de5",
+          "serviceName": "bedrock",
+          "timestamp": "2026-08-17T02:30:55.423Z"
+        }
+      }
+    ]
+  },
+  "FlowInputNode": {
+    "inputTraces": [],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "I was charged twice for my subscription last month. I reached out last week and never heard back. I need this resolved before my next billing cycle."
+              },
+              "next": [
+                {
+                  "inputFieldName": "ticket",
+                  "nodeName": "BillingResponder"
+                },
+                {
+                  "inputFieldName": "ticket",
+                  "nodeName": "TechResponder"
+                },
+                {
+                  "inputFieldName": "ticket",
+                  "nodeName": "OtherResponder"
+                },
+                {
+                  "inputFieldName": "ticket",
+                  "nodeName": "ClassifyTicket"
+                }
+              ],
+              "nodeOutputName": "document",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "FlowInputNode",
+          "timestamp": "2026-08-17T02:30:54.932Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": []
+  },
+  "RouteByCategory": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "billing"
+              },
+              "nodeInputName": "category",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "ClassifyTicket",
+                "outputFieldName": "modelCompletion"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "RouteByCategory",
+          "timestamp": "2026-08-17T02:30:55.423Z"
+        }
+      }
+    ],
+    "outputTraces": [],
+    "conditionTraces": [
+      {
+        "conditionNodeResultTrace": {
+          "nodeName": "RouteByCategory",
+          "satisfiedConditions": [
+            {
+              "conditionName": "cond_billing"
+            }
+          ],
+          "timestamp": "2026-08-17T02:30:55.424Z"
+        }
+      }
+    ],
+    "dependencyTraces": [],
+    "actionTraces": []
+  },
+  "BillingResponder": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "I was charged twice for my subscription last month. I reached out last week and never heard back. I need this resolved before my next billing cycle."
+              },
+              "nodeInputName": "ticket",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "FlowInputNode",
+                "outputFieldName": "document"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "BillingResponder",
+          "timestamp": "2026-08-17T02:30:55.424Z"
+        }
+      }
+    ],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "I'm sorry for the delay and the double charge issue. We're looking into this urgently. Expect an update within the next 48 hours. Please monitor your email for further instructions."
+              },
+              "next": [
+                {
+                  "inputFieldName": "document",
+                  "nodeName": "FlowOutputNode"
+                }
+              ],
+              "nodeOutputName": "modelCompletion",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "BillingResponder",
+          "timestamp": "2026-08-17T02:30:55.907Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": [
+      {
+        "nodeActionTrace": {
+          "nodeName": "BillingResponder",
+          "operationName": "Converse",
+          "operationRequest": {
+            "requestMetadata": {},
+            "promptVariables": {},
+            "system": [],
+            "additionalModelRequestFields": null,
+            "modelId": "amazon.nova-pro-v1:0",
+            "inferenceConfig": {
+              "maxTokens": 512,
+              "temperature": 0.699999988079071,
+              "topP": 1,
+              "stopSequences": []
+            },
+            "additionalModelResponseFieldPaths": [],
+            "messages": [
+              {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "You are a billing support specialist. Your responses are professional, concise, and empathetic. You acknowledge the issue, explain what will happen next, and provide a clear next step.\n\nRules:\n- Keep responses under 120 words\n- Do not promise specific outcomes (e.g., do not guarantee a refund)\n- Always end with one concrete action the customer can take or expect\n\nRespond to this billing support request:\n\n<ticket>\nI was charged twice for my subscription last month. I reached out last week and never heard back. I need this resolved before my next billing cycle.\n</ticket>"
+                  }
+                ],
+                "role": "user"
+              }
+            ]
+          },
+          "operationResponse": {
+            "output": {
+              "message": {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "I'm sorry for the delay and the double charge issue. We're looking into this urgently. Expect an update within the next 48 hours. Please monitor your email for further instructions."
+                  }
+                ],
+                "role": "assistant"
+              },
+              "type": "MESSAGE"
+            },
+            "stopReason": "end_turn",
+            "sdkHttpResponse": {
+              "statusText": "OK",
+              "statusCode": 200,
+              "successful": true
+            },
+            "responseMetadata": {
+              "metadata": {
+                "Connection": "keep-alive",
+                "x-amzn-RequestId": "7fb2c9e1-7234-434d-be1f-6b35ecf54f31",
+                "AWS_REQUEST_ID": "7fb2c9e1-7234-434d-be1f-6b35ecf54f31",
+                "Content-Length": "385",
+                "Date": "Mon, 17 Aug 2026 02:30:55 GMT",
+                "Content-Type": "application/json"
+              }
+            },
+            "metrics": {
+              "latencyMs": 458
+            },
+            "usage": {
+              "inputTokens": 121,
+              "outputTokens": 41,
+              "totalTokens": 162,
+              "cacheDetails": []
+            }
+          },
+          "requestId": "7fb2c9e1-7234-434d-be1f-6b35ecf54f31",
+          "serviceName": "bedrock",
+          "timestamp": "2026-08-17T02:30:55.907Z"
+        }
+      }
+    ]
+  },
+  "FlowOutputNode": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "I'm sorry for the delay and the double charge issue. We're looking into this urgently. Expect an update within the next 48 hours. Please monitor your email for further instructions."
+              },
+              "nodeInputName": "document",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "BillingResponder",
+                "outputFieldName": "modelCompletion"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "FlowOutputNode",
+          "timestamp": "2026-08-17T02:30:55.907Z"
+        }
+      }
+    ],
+    "outputTraces": [],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": []
+  }
+}

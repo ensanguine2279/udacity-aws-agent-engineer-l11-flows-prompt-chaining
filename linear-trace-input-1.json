@@ -1,0 +1,307 @@
+{
+  "OutlineGenerator": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "We want to write about why companies should move from shared passwords to SSO for internal tools. Target audience is IT managers at mid-size companies. Tone should be practical and slightly urgent without being alarmist."
+              },
+              "nodeInputName": "idea_brief",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "FlowInputNode",
+                "outputFieldName": "document"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "OutlineGenerator",
+          "timestamp": "2026-08-17T01:32:35.030Z"
+        }
+      }
+    ],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "- Headline options: \n  1. \"Why IT Managers Should Transition from Shared Passwords to SSO Now\"\n  2. \"Enhancing Security and Efficiency: The Case for SSO Over Shared Passwords\"\n  3. \"The Urgent Need for IT Managers to Adopt SSO Instead of Shared Passwords\"\n\n- Target audience: IT managers at mid-size companies\n\n- Sections:\n  1. Introduction: Briefly introduce the topic and explain the importance of secure access to internal tools.\n  2. The problem with shared passwords: Discuss the risks and inefficiencies associated with using shared passwords.\n  3. What is SSO and how does it work?: Provide an overview of Single Sign-On (SSO) and explain its benefits.\n  4. The benefits of SSO for IT managers: Highlight the advantages of SSO for IT managers, such as improved security, increased efficiency, and better user experience.\n  5. Steps to implement SSO in your organization: Offer a practical guide for IT managers to transition from shared passwords to SSO.\n  6. Conclusion: Summarize the key points and encourage IT managers to take action and adopt SSO.\n\n- Key points:\n  - Shared passwords pose significant security risks and can lead to data breaches.\n  - SSO provides a more secure and efficient way for employees to access internal tools.\n  - SSO offers benefits such as improved security, increased efficiency, and better user experience.\n  - Implementing SSO requires careful planning and execution, but the benefits far outweigh the costs.\n  - IT managers should take action now to transition from shared passwords to SSO to protect their organization's data and improve overall efficiency."
+              },
+              "next": [
+                {
+                  "inputFieldName": "outline",
+                  "nodeName": "DraftWriter"
+                }
+              ],
+              "nodeOutputName": "modelCompletion",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "OutlineGenerator",
+          "timestamp": "2026-08-17T01:32:36.882Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": [
+      {
+        "nodeActionTrace": {
+          "nodeName": "OutlineGenerator",
+          "operationName": "Converse",
+          "operationRequest": {
+            "requestMetadata": {},
+            "promptVariables": {},
+            "system": [],
+            "additionalModelRequestFields": null,
+            "modelId": "amazon.nova-pro-v1:0",
+            "inferenceConfig": {
+              "maxTokens": 512,
+              "temperature": 0.699999988079071,
+              "topP": 1,
+              "stopSequences": []
+            },
+            "additionalModelResponseFieldPaths": [],
+            "messages": [
+              {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "You are a content strategist for a B2B software blog. When given a brief idea, produce a structured blog post outline.\n\nYour output must follow this exact format:\n- Headline options: three alternative titles\n- Target audience: one sentence\n- Sections: a numbered list of section names with a single-sentence description of each\n- Key points: three to five bullet points that must appear somewhere in the post\n\nHere is the idea brief:\n\n<brief>\nWe want to write about why companies should move from shared passwords to SSO for internal tools. Target audience is IT managers at mid-size companies. Tone should be practical and slightly urgent without being alarmist.\n</brief>\n\nGenerate the blog post outline now."
+                  }
+                ],
+                "role": "user"
+              }
+            ]
+          },
+          "operationResponse": {
+            "output": {
+              "message": {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "- Headline options: \n  1. \"Why IT Managers Should Transition from Shared Passwords to SSO Now\"\n  2. \"Enhancing Security and Efficiency: The Case for SSO Over Shared Passwords\"\n  3. \"The Urgent Need for IT Managers to Adopt SSO Instead of Shared Passwords\"\n\n- Target audience: IT managers at mid-size companies\n\n- Sections:\n  1. Introduction: Briefly introduce the topic and explain the importance of secure access to internal tools.\n  2. The problem with shared passwords: Discuss the risks and inefficiencies associated with using shared passwords.\n  3. What is SSO and how does it work?: Provide an overview of Single Sign-On (SSO) and explain its benefits.\n  4. The benefits of SSO for IT managers: Highlight the advantages of SSO for IT managers, such as improved security, increased efficiency, and better user experience.\n  5. Steps to implement SSO in your organization: Offer a practical guide for IT managers to transition from shared passwords to SSO.\n  6. Conclusion: Summarize the key points and encourage IT managers to take action and adopt SSO.\n\n- Key points:\n  - Shared passwords pose significant security risks and can lead to data breaches.\n  - SSO provides a more secure and efficient way for employees to access internal tools.\n  - SSO offers benefits such as improved security, increased efficiency, and better user experience.\n  - Implementing SSO requires careful planning and execution, but the benefits far outweigh the costs.\n  - IT managers should take action now to transition from shared passwords to SSO to protect their organization's data and improve overall efficiency."
+                  }
+                ],
+                "role": "assistant"
+              },
+              "type": "MESSAGE"
+            },
+            "stopReason": "end_turn",
+            "sdkHttpResponse": {
+              "statusText": "OK",
+              "statusCode": 200,
+              "successful": true
+            },
+            "responseMetadata": {
+              "metadata": {
+                "Connection": "keep-alive",
+                "x-amzn-RequestId": "1e569074-3983-48fc-9874-0ead9fa854c9",
+                "AWS_REQUEST_ID": "1e569074-3983-48fc-9874-0ead9fa854c9",
+                "Content-Length": "1834",
+                "Date": "Mon, 17 Aug 2026 01:32:36 GMT",
+                "Content-Type": "application/json"
+              }
+            },
+            "metrics": {
+              "latencyMs": 1812
+            },
+            "usage": {
+              "inputTokens": 145,
+              "outputTokens": 340,
+              "totalTokens": 485,
+              "cacheDetails": []
+            }
+          },
+          "requestId": "1e569074-3983-48fc-9874-0ead9fa854c9",
+          "serviceName": "bedrock",
+          "timestamp": "2026-08-17T01:32:36.882Z"
+        }
+      }
+    ]
+  },
+  "FlowInputNode": {
+    "inputTraces": [],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "We want to write about why companies should move from shared passwords to SSO for internal tools. Target audience is IT managers at mid-size companies. Tone should be practical and slightly urgent without being alarmist."
+              },
+              "next": [
+                {
+                  "inputFieldName": "idea_brief",
+                  "nodeName": "OutlineGenerator"
+                }
+              ],
+              "nodeOutputName": "document",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "FlowInputNode",
+          "timestamp": "2026-08-17T01:32:35.030Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": []
+  },
+  "DraftWriter": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "- Headline options: \n  1. \"Why IT Managers Should Transition from Shared Passwords to SSO Now\"\n  2. \"Enhancing Security and Efficiency: The Case for SSO Over Shared Passwords\"\n  3. \"The Urgent Need for IT Managers to Adopt SSO Instead of Shared Passwords\"\n\n- Target audience: IT managers at mid-size companies\n\n- Sections:\n  1. Introduction: Briefly introduce the topic and explain the importance of secure access to internal tools.\n  2. The problem with shared passwords: Discuss the risks and inefficiencies associated with using shared passwords.\n  3. What is SSO and how does it work?: Provide an overview of Single Sign-On (SSO) and explain its benefits.\n  4. The benefits of SSO for IT managers: Highlight the advantages of SSO for IT managers, such as improved security, increased efficiency, and better user experience.\n  5. Steps to implement SSO in your organization: Offer a practical guide for IT managers to transition from shared passwords to SSO.\n  6. Conclusion: Summarize the key points and encourage IT managers to take action and adopt SSO.\n\n- Key points:\n  - Shared passwords pose significant security risks and can lead to data breaches.\n  - SSO provides a more secure and efficient way for employees to access internal tools.\n  - SSO offers benefits such as improved security, increased efficiency, and better user experience.\n  - Implementing SSO requires careful planning and execution, but the benefits far outweigh the costs.\n  - IT managers should take action now to transition from shared passwords to SSO to protect their organization's data and improve overall efficiency."
+              },
+              "nodeInputName": "outline",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "OutlineGenerator",
+                "outputFieldName": "modelCompletion"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "DraftWriter",
+          "timestamp": "2026-08-17T01:32:36.882Z"
+        }
+      }
+    ],
+    "outputTraces": [
+      {
+        "nodeOutputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "**The Urgent Need for IT Managers to Adopt SSO Instead of Shared Passwords**\n\nAs an IT manager, ensuring secure access to internal tools is paramount. With cyber threats on the rise, it’s crucial to adopt practices that not only safeguard sensitive data but also enhance operational efficiency. One such practice is transitioning from shared passwords to Single Sign-On (SSO). This shift can significantly improve your organization’s security posture and streamline user access to essential applications.\n\n**The problem with shared passwords**\n\nShared passwords are a common yet problematic practice in many organizations. They pose significant security risks and can lead to data breaches. When multiple employees use the same password, it becomes easier for unauthorized users to gain access to sensitive information. Moreover, shared passwords often lead to password fatigue, where employees resort to weak or easily guessable passwords to simplify access. This further exacerbates security vulnerabilities.\n\nIn addition to security concerns, shared passwords create inefficiencies. Employees may spend unnecessary time coordinating password changes or resetting passwords when access issues arise. This not only disrupts productivity but also increases the workload on IT support teams, who must address these issues promptly.\n\n**What is SSO and how does it work?**\n\nSingle Sign-On (SSO) is a authentication process that allows users to access multiple applications with one set of login credentials. Instead of remembering different passwords for various tools, employees enter their credentials once and gain seamless access to all authorized applications.\n\nSSO works by establishing a trust relationship between the identity provider (IdP) and the service providers (SPs). When a user attempts to access an application, the SP redirects the request to the IdP. The IdP verifies the user's identity and, upon successful authentication, grants access to the requested application. This process ensures that users only need to remember one set of credentials, enhancing both security and convenience.\n\n**The benefits of SSO for IT managers**\n\nAdopting SSO offers numerous advantages for IT managers. Firstly, it significantly improves security by eliminating the need for shared passwords. Each user has unique credentials, reducing the risk of unauthorized access. Additionally, SSO supports stronger authentication methods, such as multi-factor authentication (MFA), further enhancing security.\n\nSSO also increases efficiency. Employees no longer need to remember multiple passwords, which streamlines the login process and reduces the time spent on password management. This leads to higher productivity as employees can focus more on their tasks and less on accessing applications.\n\nFurthermore, SSO enhances the user experience. Employees appreciate the convenience of seamless access to all"
+              },
+              "next": [
+                {
+                  "inputFieldName": "document",
+                  "nodeName": "FlowOutputNode_1"
+                }
+              ],
+              "nodeOutputName": "modelCompletion",
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "DraftWriter",
+          "timestamp": "2026-08-17T01:32:40.363Z"
+        }
+      }
+    ],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": [
+      {
+        "nodeActionTrace": {
+          "nodeName": "DraftWriter",
+          "operationName": "Converse",
+          "operationRequest": {
+            "requestMetadata": {},
+            "promptVariables": {},
+            "system": [],
+            "additionalModelRequestFields": null,
+            "modelId": "amazon.nova-pro-v1:0",
+            "inferenceConfig": {
+              "maxTokens": 512,
+              "temperature": 0.699999988079071,
+              "topP": 1,
+              "stopSequences": []
+            },
+            "additionalModelResponseFieldPaths": [],
+            "messages": [
+              {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "You are a professional copywriter for a B2B software blog. When given a structured outline, write a complete, publish-ready blog post.\n\nRules:\n- Follow the section structure from the outline exactly\n- Use the key points from the outline — do not drop or add any\n- Write in a clear, professional tone aimed at the target audience\n- Keep total length between 400 and 600 words\n- Do not add a conclusion section that is not in the outline\n\nHere is the outline to expand into a full blog post:\n\n<outline>\n- Headline options: \n  1. \"Why IT Managers Should Transition from Shared Passwords to SSO Now\"\n  2. \"Enhancing Security and Efficiency: The Case for SSO Over Shared Passwords\"\n  3. \"The Urgent Need for IT Managers to Adopt SSO Instead of Shared Passwords\"\n\n- Target audience: IT managers at mid-size companies\n\n- Sections:\n  1. Introduction: Briefly introduce the topic and explain the importance of secure access to internal tools.\n  2. The problem with shared passwords: Discuss the risks and inefficiencies associated with using shared passwords.\n  3. What is SSO and how does it work?: Provide an overview of Single Sign-On (SSO) and explain its benefits.\n  4. The benefits of SSO for IT managers: Highlight the advantages of SSO for IT managers, such as improved security, increased efficiency, and better user experience.\n  5. Steps to implement SSO in your organization: Offer a practical guide for IT managers to transition from shared passwords to SSO.\n  6. Conclusion: Summarize the key points and encourage IT managers to take action and adopt SSO.\n\n- Key points:\n  - Shared passwords pose significant security risks and can lead to data breaches.\n  - SSO provides a more secure and efficient way for employees to access internal tools.\n  - SSO offers benefits such as improved security, increased efficiency, and better user experience.\n  - Implementing SSO requires careful planning and execution, but the benefits far outweigh the costs.\n  - IT managers should take action now to transition from shared passwords to SSO to protect their organization's data and improve overall efficiency.\n</outline>\n\nWrite the complete blog post now."
+                  }
+                ],
+                "role": "user"
+              }
+            ]
+          },
+          "operationResponse": {
+            "output": {
+              "message": {
+                "content": [
+                  {
+                    "type": "TEXT",
+                    "text": "**The Urgent Need for IT Managers to Adopt SSO Instead of Shared Passwords**\n\nAs an IT manager, ensuring secure access to internal tools is paramount. With cyber threats on the rise, it’s crucial to adopt practices that not only safeguard sensitive data but also enhance operational efficiency. One such practice is transitioning from shared passwords to Single Sign-On (SSO). This shift can significantly improve your organization’s security posture and streamline user access to essential applications.\n\n**The problem with shared passwords**\n\nShared passwords are a common yet problematic practice in many organizations. They pose significant security risks and can lead to data breaches. When multiple employees use the same password, it becomes easier for unauthorized users to gain access to sensitive information. Moreover, shared passwords often lead to password fatigue, where employees resort to weak or easily guessable passwords to simplify access. This further exacerbates security vulnerabilities.\n\nIn addition to security concerns, shared passwords create inefficiencies. Employees may spend unnecessary time coordinating password changes or resetting passwords when access issues arise. This not only disrupts productivity but also increases the workload on IT support teams, who must address these issues promptly.\n\n**What is SSO and how does it work?**\n\nSingle Sign-On (SSO) is a authentication process that allows users to access multiple applications with one set of login credentials. Instead of remembering different passwords for various tools, employees enter their credentials once and gain seamless access to all authorized applications.\n\nSSO works by establishing a trust relationship between the identity provider (IdP) and the service providers (SPs). When a user attempts to access an application, the SP redirects the request to the IdP. The IdP verifies the user's identity and, upon successful authentication, grants access to the requested application. This process ensures that users only need to remember one set of credentials, enhancing both security and convenience.\n\n**The benefits of SSO for IT managers**\n\nAdopting SSO offers numerous advantages for IT managers. Firstly, it significantly improves security by eliminating the need for shared passwords. Each user has unique credentials, reducing the risk of unauthorized access. Additionally, SSO supports stronger authentication methods, such as multi-factor authentication (MFA), further enhancing security.\n\nSSO also increases efficiency. Employees no longer need to remember multiple passwords, which streamlines the login process and reduces the time spent on password management. This leads to higher productivity as employees can focus more on their tasks and less on accessing applications.\n\nFurthermore, SSO enhances the user experience. Employees appreciate the convenience of seamless access to all"
+                  }
+                ],
+                "role": "assistant"
+              },
+              "type": "MESSAGE"
+            },
+            "stopReason": "max_tokens",
+            "sdkHttpResponse": {
+              "statusText": "OK",
+              "statusCode": 200,
+              "successful": true
+            },
+            "responseMetadata": {
+              "metadata": {
+                "Connection": "keep-alive",
+                "x-amzn-RequestId": "f7c3a778-a012-4a28-9859-923330a005fb",
+                "AWS_REQUEST_ID": "f7c3a778-a012-4a28-9859-923330a005fb",
+                "Content-Length": "3134",
+                "Date": "Mon, 17 Aug 2026 01:32:40 GMT",
+                "Content-Type": "application/json"
+              }
+            },
+            "metrics": {
+              "latencyMs": 3455
+            },
+            "usage": {
+              "inputTokens": 465,
+              "outputTokens": 512,
+              "totalTokens": 977,
+              "cacheDetails": []
+            }
+          },
+          "requestId": "f7c3a778-a012-4a28-9859-923330a005fb",
+          "serviceName": "bedrock",
+          "timestamp": "2026-08-17T01:32:40.363Z"
+        }
+      }
+    ]
+  },
+  "FlowOutputNode_1": {
+    "inputTraces": [
+      {
+        "nodeInputTrace": {
+          "fields": [
+            {
+              "content": {
+                "document": "**The Urgent Need for IT Managers to Adopt SSO Instead of Shared Passwords**\n\nAs an IT manager, ensuring secure access to internal tools is paramount. With cyber threats on the rise, it’s crucial to adopt practices that not only safeguard sensitive data but also enhance operational efficiency. One such practice is transitioning from shared passwords to Single Sign-On (SSO). This shift can significantly improve your organization’s security posture and streamline user access to essential applications.\n\n**The problem with shared passwords**\n\nShared passwords are a common yet problematic practice in many organizations. They pose significant security risks and can lead to data breaches. When multiple employees use the same password, it becomes easier for unauthorized users to gain access to sensitive information. Moreover, shared passwords often lead to password fatigue, where employees resort to weak or easily guessable passwords to simplify access. This further exacerbates security vulnerabilities.\n\nIn addition to security concerns, shared passwords create inefficiencies. Employees may spend unnecessary time coordinating password changes or resetting passwords when access issues arise. This not only disrupts productivity but also increases the workload on IT support teams, who must address these issues promptly.\n\n**What is SSO and how does it work?**\n\nSingle Sign-On (SSO) is a authentication process that allows users to access multiple applications with one set of login credentials. Instead of remembering different passwords for various tools, employees enter their credentials once and gain seamless access to all authorized applications.\n\nSSO works by establishing a trust relationship between the identity provider (IdP) and the service providers (SPs). When a user attempts to access an application, the SP redirects the request to the IdP. The IdP verifies the user's identity and, upon successful authentication, grants access to the requested application. This process ensures that users only need to remember one set of credentials, enhancing both security and convenience.\n\n**The benefits of SSO for IT managers**\n\nAdopting SSO offers numerous advantages for IT managers. Firstly, it significantly improves security by eliminating the need for shared passwords. Each user has unique credentials, reducing the risk of unauthorized access. Additionally, SSO supports stronger authentication methods, such as multi-factor authentication (MFA), further enhancing security.\n\nSSO also increases efficiency. Employees no longer need to remember multiple passwords, which streamlines the login process and reduces the time spent on password management. This leads to higher productivity as employees can focus more on their tasks and less on accessing applications.\n\nFurthermore, SSO enhances the user experience. Employees appreciate the convenience of seamless access to all"
+              },
+              "nodeInputName": "document",
+              "source": {
+                "expression": "$.data",
+                "nodeName": "DraftWriter",
+                "outputFieldName": "modelCompletion"
+              },
+              "type": "STRING"
+            }
+          ],
+          "nodeName": "FlowOutputNode_1",
+          "timestamp": "2026-08-17T01:32:40.363Z"
+        }
+      }
+    ],
+    "outputTraces": [],
+    "conditionTraces": [],
+    "dependencyTraces": [],
+    "actionTraces": []
+  }
+}
