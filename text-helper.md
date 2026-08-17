@@ -185,6 +185,8 @@ Connect the nodes as follows:
 | Rewriter (output)        | Flow output      | model response → output         |
 | OtherResponder (output)  | Flow output      | model response → output         |
 
+<br/>
+
 ![Completed flow and nodes](./assets/images/text-helper-flows.png)
 
 ---
